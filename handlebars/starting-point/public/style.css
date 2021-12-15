@@ -1,3 +1,44 @@
+
+/* body {
+    background-color: rgba(185, 127, 0, 0.692);
+}
+img{
+    width: 400px;
+    height: 200px;
+}
+h1{
+    color:rgba(10, 3, 41, 0.966);
+}
+h2{
+    color:rgb(10, 3, 41, 0.966);
+}
+.btn{
+    background-color: beige;
+    text-decoration: none;
+    color: rgba(6, 1, 77, 0.336);
+} */
+
 body {
     background-color: green;
+    background-color: rgb(173, 188, 230);
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }
+
+#menu {
+    display: flex;
+    flex-direction: row;
+    border-style: solid;
+    border-radius: 5px;
+    width: 300px;
+}
+
+button{
+    background-color: whitesmoke;
+    width: 100px;
+    height: 50px;
+    border-radius: 5px;
+} 

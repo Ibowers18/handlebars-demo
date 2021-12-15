@@ -7,19 +7,50 @@ const {allowInsecurePrototypeAccess} = require('@handlebars/allow-prototype-acce
 const Restaurant = require('./models/restaurant');
 const Menu = require('./models/menu');
 const MenuItem = require('./models/menuItem');
-
+const {sequelize} =require('./db'); 
 const initialiseDb = require('./initialiseDb');
 initialiseDb();
+
+//SEQUELIZE-
+//const {sequelize, Sauce} = require('./models');
 
 const app = express();
 const port = 3000;
 
 
-
+// SERVE- static assets from the public/ folder
 app.use(express.static('public'));
 
 app.use(express.json());
+//
+//CONFIGURES-  handlebars library to work well w/ Express + Sequelize model
+const handlebars = expressHandlebars({
+    handlebars : allowInsecurePrototypeAccess(Handlebars)
+})
 
+//ADD CODE -
+//Tell this express app we're using handlebars
+
+app.engine('handlebars', handlebars);
+app.set('view engine', 'handlebars')
+
+const seedDb = async () => {
+    
+//    await sequelize.sync({ force: true });
+
+    const restaurant = [
+        {name : 'Kentucky Fried Chicken', image : '/https://c.tenor.com/ovcgHfY5OxkAAAAM/kfc-fried-chicken.gif'},
+        {name : 'Raising Canes', image: '/https://www.google.com/imgres?imgurl=https%3A%2F%2Fc.tenor.com%2FHFRK8nxr3owAAAAC%2Fraising-canes-chicken-tenders.gif&imgrefurl=https%3A%2F%2Ftenor.com%2Fes%2Fver%2Fraising-canes-chicken-tenders-chicken-fingers-fast-food-raising-canes-chicken-fingers-gif-21771825&tbnid=mK9ulj9cAafJwM&vet=12ahUKEwjfrNGA7eT0AhV1ATQIHZjnDiQQMygAegQIARAY..i&docid=wyS6hlKM8MDa7M&w=498&h=278&itg=1&q=raising%20canes%20gif&ved=2ahUKEwjfrNGA7eT0AhV1ATQIHZjnDiQQMygAegQIARAY'},
+        {name : 'Wendys', image: '/https://c.tenor.com/PJGYNaVduOkAAAAM/wendys.gif'}
+    ]
+    restaurant
+    const restaurantPromises = restaurant.map(restaurant => Restaurant.create(restaurant))
+    await Promise.all(restaurantPromises)
+    console.log("db populated!")
+
+}
+//seedDb();
+//STOP ADD CODE
 
 const restaurantChecks = [
     check('name').not().isEmpty().trim().escape(),
@@ -29,8 +60,15 @@ const restaurantChecks = [
 
 app.get('/restaurants', async (req, res) => {
     const restaurants = await Restaurant.findAll();
-    res.json(restaurants);
+    //res.json(restaurants);
+    res.render('restaurants',{restaurants});
+
 });
+
+app.get('/restaurant-data', async (req,res) => {
+    const restaurants = await Restaurant.findAll();
+    res.json({restaurants})
+})
 
 app.get('/restaurants/:id', async (req, res) => {
     const restaurant = await Restaurant.findByPk(req.params.id, {include: {
@@ -38,7 +76,16 @@ app.get('/restaurants/:id', async (req, res) => {
             include: MenuItem
         }
     });
-    res.json(restaurant);
+    res.render('onerestaurant',{restaurant});
+});
+
+app.get('/menu/:id', async (req, res) => {
+    const restaurant = await Restaurant.findByPk(req.params.id, {include: {
+            model: Menu,
+            include: MenuItem
+        }
+    });
+    res.json(restaurant)
 });
 
 app.post('/restaurants', restaurantChecks, async (req, res) => {
