@@ -21,7 +21,8 @@ const port = 3000;
 // SERVE- static assets from the public/ folder
 app.use(express.static('public'));
 
-app.use(express.json());
+app.use(express.json())
+app.use(express.urlencoded({extended:true}))
 //
 //CONFIGURES-  handlebars library to work well w/ Express + Sequelize model
 const handlebars = expressHandlebars({
@@ -122,6 +123,33 @@ app.patch('/restaurants/:id', async (req, res) => {
     res.sendStatus(200);
 });
 
+
+app.get('/new-restaurant',async(req,res)=>{
+    const restaurantAlert=""
+    res.render('newrestaurant',{restaurantAlert})
+});
+
+app.post('/new-restaurant',async(req,res)=>{
+    const newRestaurant=await Restaurant.create(req.body)
+    let restaurantAlert = `${newRestaurant.name} added to your database`
+    const foundRestaurant=await Restaurant.findByPk(newRestaurant.id)
+    if(foundRestaurant){
+        res.render('newrestaurant',{restaurantAlert})
+    }else{
+        restaurantAlert='Failed to add Restaurant'
+        res.render('newrestaurant',{restaurantAlert})
+    }
+    
+    })
+
+//DELETE method, restaurant/:id path => Deletes a restaurant from db.sqlite
+app.delete('/restaurant/:id', async (req,res)=>{
+    const deletedRestaurant = await Restaurant.destroy({
+        where: {id:req.params.id}
+    })
+    const restaurant = await Restaurant.findAll();
+    res.render('reataurant', {restaurant})
+})
 app.listen(port, () => {
     console.log(`Server listening at http://localhost:${port}`);
 });

@@ -22,8 +22,10 @@ body {
     background-color: green;
     background-color: rgb(173, 188, 230);
     font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
-    display: flex;
-    flex-direction: column;
+    width: 20px;
+    height: 20px;
+    /* display: flex;
+    flex-direction: column; */
     align-items: center;
     justify-content: center;
 }
@@ -42,3 +44,7 @@ button{
     height: 50px;
     border-radius: 5px;
 } 
+img{
+    width: 360px;
+    height: auto;
+}

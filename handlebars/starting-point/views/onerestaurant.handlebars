@@ -1,15 +1,24 @@
-{{!-- <div>
-	<h2>Single Restaurant: {{singlerestaurant.name}}</h2>
-	<img class="item-img" src="{{singlerestaurant.image}}" />
-	<a class="btn" href="/restaurants">See Restaurant List</a>
-</div> --}}
 
-<body>
-	<div>
-	<h2>Single Restaurant: {{restaurant.name}}</h2>
-	<img class="item-img" src="{{restaurant.image}}"/>
+
+<div>
+	<h2> SingleRestaurant: {{restaurant.name}}</h2>
+	<img class= "item-img" src= "{{restaurant.image}}"/>
+
 	<br>
 	<br>
-	<button><a class="btn" href="/restaurants">See Restaurant List</a></button>
+
+	{{!-- <div> class= 'button-list'>
+		<button id= 'details-btn'>Show Other Restaurants</button>
+		<button id= 'menu-btn'>Show Menu</button> --}}
+		<button><a class="btn" href="/restaurants">Go Back to Restaurant List</a></button>
+		<button id="delete-btn">Delete</button>
+	{{!-- </div> --}}
+
+
+	
+
+   <div id='menu'></div>
+   <ul id='list'></ul>
+<script src="/script.js"></script>
+
 </div>
-</body>

@@ -1,17 +1,4 @@
-{{!-- <section>
-    <h2>
-        There are {{restaurants.length}} restaurants
-    </h2>
 
-    {{#each restaurants}}
-    <article class="clearfix item-container block"
-    <h2>{{name}} </h2>
-    <img class="item-img" src="{{image}}"/>
-      <a class="btn" href="/restaurants/{{id}}">View Restaurant</a>
-    {{/each}}
-      </section> --}}
-
-<body>
     <section>
     <h2>There are {{restaurants.length}} restaurants</h2>
     
@@ -22,7 +9,18 @@
         <br>
         <br>
         <button><a class="btn" href="/restaurants/{{id}}">See Restaurant</a></button>
+        <div class="big-block">
+    <h2 id="item-name">{{sauce.name}}</h2>
+    <img class="item-img" src="{{sauce.image}}" />
+    {{!-- <button id="delete-btn">Delete</button> --}}
+</div>
     </article>
     {{/each}}
+  <div>
+        <a href="/new-restaurant" class="new-restaurant-btn">Add New Restaurant!</a>
+
+          <script src="/public/script.js"></script>
+
+    </div>
 </section>
-</body>
+
